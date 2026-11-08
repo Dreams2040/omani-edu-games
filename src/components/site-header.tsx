@@ -1,19 +1,17 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { LogoMark } from "./logo";
 
 export function SiteHeader({ children }: { children?: ReactNode }) {
   return (
-    <header className="bg-surface border-b border-border">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <span aria-hidden className="inline-block h-8 w-8 rounded-lg bg-green-600 text-white grid place-items-center">
-            ⛵
-          </span>
-          ألعاب الصف العُماني
+    <header className="sticky top-0 z-20 border-b border-border bg-surface/85 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <Link href="/" className="flex items-center gap-2.5">
+          <LogoMark />
+          <span className="whitespace-nowrap font-display text-lg font-bold leading-none sm:text-xl">ألعاب الصف العُماني</span>
         </Link>
         <nav className="flex items-center gap-2">{children}</nav>
       </div>
-      <div className="door-band" />
     </header>
   );
 }

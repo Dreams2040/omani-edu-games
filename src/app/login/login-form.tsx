@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { signIn, signInWithGoogle, signUp, type AuthState } from "./actions";
 
 const input =
-  "w-full rounded-lg border border-border bg-surface px-3 py-2.5 outline-none focus:border-sea-600 focus:ring-2 focus:ring-sea-600/20";
+  "w-full rounded-xl border-2 border-border bg-surface px-4 py-3 text-base outline-none transition-colors focus:border-sea";
 
 export function LoginForm({ initialError }: { initialError?: string }) {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -16,8 +16,8 @@ export function LoginForm({ initialError }: { initialError?: string }) {
   const error = state.error ?? (mode === "signin" ? initialError : undefined);
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-border bg-surface p-6 shadow-sm">
-      <div role="tablist" className="mb-6 grid grid-cols-2 rounded-xl bg-sand-100 p-1">
+    <div>
+      <div role="tablist" aria-label="نوع الدخول" className="mb-6 grid grid-cols-2 rounded-full bg-indigo-soft p-1.5">
         {(["signin", "signup"] as const).map((m) => (
           <button
             key={m}
@@ -25,7 +25,9 @@ export function LoginForm({ initialError }: { initialError?: string }) {
             type="button"
             aria-selected={mode === m}
             onClick={() => setMode(m)}
-            className={`rounded-lg py-2 font-medium ${mode === m ? "bg-surface shadow-sm" : "text-muted"}`}
+            className={`rounded-full py-2.5 font-semibold transition-colors ${
+              mode === m ? "bg-surface text-indigo shadow-sm dark:text-foreground" : "text-muted hover:text-foreground"
+            }`}
           >
             {m === "signin" ? "تسجيل الدخول" : "حساب جديد"}
           </button>
@@ -35,9 +37,9 @@ export function LoginForm({ initialError }: { initialError?: string }) {
       <form action={signInWithGoogle}>
         <button
           type="submit"
-          className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-surface py-2.5 font-medium hover:bg-sand-100"
+          className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-border bg-surface py-3 font-semibold transition-colors hover:border-sea"
         >
-          <svg aria-hidden width="18" height="18" viewBox="0 0 48 48">
+          <svg aria-hidden width="20" height="20" viewBox="0 0 48 48">
             <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" />
             <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
             <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z" />
@@ -47,25 +49,25 @@ export function LoginForm({ initialError }: { initialError?: string }) {
         </button>
       </form>
 
-      <div className="my-5 flex items-center gap-3 text-sm text-muted">
+      <div className="my-6 flex items-center gap-3 text-sm text-muted">
         <span className="h-px flex-1 bg-border" />
-        أو بالبريد
+        أو بالبريد الإلكتروني
         <span className="h-px flex-1 bg-border" />
       </div>
 
       <form action={mode === "signin" ? signInAction : signUpAction} className="space-y-4">
         {mode === "signup" && (
           <label className="block">
-            <span className="mb-1 block text-sm font-medium">الاسم الكامل</span>
+            <span className="mb-1.5 block text-sm font-semibold">الاسم الكامل</span>
             <input name="full_name" required autoComplete="name" className={input} />
           </label>
         )}
         <label className="block">
-          <span className="mb-1 block text-sm font-medium">البريد الإلكتروني</span>
-          <input name="email" type="email" required dir="ltr" autoComplete="email" className={`${input} text-left`} />
+          <span className="mb-1.5 block text-sm font-semibold">البريد الإلكتروني</span>
+          <input name="email" type="email" required dir="ltr" autoComplete="email" placeholder="name@example.com" className={`${input} text-left`} />
         </label>
         <label className="block">
-          <span className="mb-1 block text-sm font-medium">كلمة المرور</span>
+          <span className="mb-1.5 block text-sm font-semibold">كلمة المرور</span>
           <input
             name="password"
             type="password"
@@ -75,15 +77,16 @@ export function LoginForm({ initialError }: { initialError?: string }) {
             autoComplete={mode === "signin" ? "current-password" : "new-password"}
             className={`${input} text-left`}
           />
+          {mode === "signup" && <span className="mt-1.5 block text-sm text-muted">8 أحرف على الأقل.</span>}
         </label>
 
         {error && (
-          <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
+          <p role="alert" className="rounded-xl bg-pomegranate-soft px-4 py-3 text-sm font-medium text-pomegranate-deep">
             {error}
           </p>
         )}
         {state.message && (
-          <p role="status" className="rounded-lg bg-green-600/10 px-3 py-2 text-sm text-green-700">
+          <p role="status" className="rounded-xl bg-palm-soft px-4 py-3 text-sm font-medium text-palm-deep">
             {state.message}
           </p>
         )}
@@ -91,7 +94,7 @@ export function LoginForm({ initialError }: { initialError?: string }) {
         <button
           type="submit"
           disabled={pending}
-          className="w-full rounded-lg bg-green-600 py-2.5 font-semibold text-white hover:bg-green-700 disabled:opacity-60"
+          className="w-full rounded-full bg-sea py-3.5 text-lg font-bold text-white transition-colors hover:bg-sea-deep disabled:opacity-60"
         >
           {pending ? "لحظة…" : mode === "signin" ? "دخول" : "إنشاء الحساب"}
         </button>

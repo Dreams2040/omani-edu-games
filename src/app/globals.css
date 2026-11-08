@@ -1,65 +1,116 @@
 @import "tailwindcss";
 
-/* Colours drawn from Oman: Sharqiya sand, Jebel Akhdar green, Sea of Oman blue. */
+/*
+  Palette drawn from Oman, tuned bright for a classroom screen:
+  sea turquoise, frankincense saffron, Jebel Akhdar pomegranate, palm green,
+  and a night-sky indigo for text instead of black.
+*/
 :root {
-  --sand-50: #fbf7ef;
-  --sand-100: #f4ead6;
-  --sand-300: #e3cc9f;
-  --sand-600: #a7834a;
-  --green-600: #2f6b4f;
-  --green-700: #245640;
-  --sea-600: #1f5a82;
-  --sea-700: #17476a;
-  --ink: #2a2118;
-  --ink-muted: #6b5d4d;
-  --danger: #b3261e;
+  --sea: #0fa3a3;
+  --sea-deep: #0b7f80;
+  --sea-soft: #dff5f4;
+  --saffron: #ffb627;
+  --saffron-deep: #c98600;
+  --saffron-soft: #fff3d6;
+  --pomegranate: #ef5b5b;
+  --pomegranate-deep: #c93d3f;
+  --pomegranate-soft: #fde6e4;
+  --palm: #2fa36b;
+  --palm-deep: #1f7d50;
+  --palm-soft: #e1f4e9;
+  --indigo: #1f2a5c;
+  --indigo-soft: #e8eaf4;
 
-  --background: var(--sand-50);
-  --foreground: var(--ink);
+  --background: #f6fafb;
   --surface: #ffffff;
-  --border: #e8dcc4;
+  --foreground: var(--indigo);
+  --muted: #5b6488;
+  --border: #e1e6ef;
+  --ring: #0fa3a3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1b1712;
-    --foreground: #f3ebdd;
-    --surface: #262019;
-    --border: #3d3428;
-    --ink-muted: #b8a88f;
-    --sand-100: #2f281f;
+    --background: #121833;
+    --surface: #1b2347;
+    --foreground: #eef1fb;
+    --muted: #a9b1d3;
+    --border: #2c3667;
+    --sea-soft: #12394a;
+    --saffron-soft: #3b3020;
+    --pomegranate-soft: #3d2133;
+    --palm-soft: #173a36;
+    --indigo-soft: #253063;
   }
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
   --color-border: var(--border);
-  --color-muted: var(--ink-muted);
-  --color-sand-50: var(--sand-50);
-  --color-sand-100: var(--sand-100);
-  --color-sand-300: var(--sand-300);
-  --color-sand-600: var(--sand-600);
-  --color-green-600: var(--green-600);
-  --color-green-700: var(--green-700);
-  --color-sea-600: var(--sea-600);
-  --color-sea-700: var(--sea-700);
-  --color-danger: var(--danger);
-  --font-sans: var(--font-arabic), system-ui, sans-serif;
+
+  --color-sea: var(--sea);
+  --color-sea-deep: var(--sea-deep);
+  --color-sea-soft: var(--sea-soft);
+  --color-saffron: var(--saffron);
+  --color-saffron-deep: var(--saffron-deep);
+  --color-saffron-soft: var(--saffron-soft);
+  --color-pomegranate: var(--pomegranate);
+  --color-pomegranate-deep: var(--pomegranate-deep);
+  --color-pomegranate-soft: var(--pomegranate-soft);
+  --color-palm: var(--palm);
+  --color-palm-deep: var(--palm-deep);
+  --color-palm-soft: var(--palm-soft);
+  --color-indigo: var(--indigo);
+  --color-indigo-soft: var(--indigo-soft);
+
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --font-display: var(--font-baloo), var(--font-body), system-ui, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-arabic), system-ui, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
+  line-height: 1.7;
 }
 
-/* A thin band inspired by the carved patterns of Omani wooden doors. */
-.door-band {
-  height: 10px;
-  background:
-    repeating-linear-gradient(45deg, var(--sand-600) 0 6px, transparent 6px 12px),
-    repeating-linear-gradient(-45deg, var(--sand-600) 0 6px, transparent 6px 12px);
-  opacity: 0.35;
+h1,
+h2,
+h3 {
+  font-family: var(--font-baloo), var(--font-body), system-ui, sans-serif;
+  line-height: 1.35;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* The one orchestrated motion: boats sail to their positions on load. */
+@keyframes sail-in {
+  from {
+    transform: translateX(var(--sail-from, 0));
+  }
+}
+.boat {
+  animation: sail-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes bob {
+  50% {
+    transform: translateY(-3px);
+  }
+}
+.boat-bob {
+  animation: bob 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boat,
+  .boat-bob {
+    animation: none;
+  }
 }
