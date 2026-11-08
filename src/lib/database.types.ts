@@ -33,10 +33,16 @@ export type Database = {
           host_id: string
           id: string
           join_code: string
+          question_started_at: string | null
+          revealed: boolean
           set_id: string
+          settings: Json
           status: Database["public"]["Enums"]["session_status"]
         }
         Insert: {
+          question_started_at?: string | null
+          revealed?: boolean
+          settings?: Json
           created_at?: string
           current_index?: number
           ended_at?: string | null
@@ -159,8 +165,17 @@ export type Database = {
           { foreignKeyName: "questions_set_id_fkey"; columns: ["set_id"]; isOneToOne: false; referencedRelation: "question_sets"; referencedColumns: ["id"] },
         ]
       }
+      session_players: {
+        Row: { id: string; joined_at: string; nickname: string; session_id: string }
+        Insert: { id?: string; joined_at?: string; nickname: string; session_id: string }
+        Update: { id?: string; joined_at?: string; nickname?: string; session_id?: string }
+        Relationships: [
+          { foreignKeyName: "session_players_session_id_fkey"; columns: ["session_id"]; isOneToOne: false; referencedRelation: "game_sessions"; referencedColumns: ["id"] },
+        ]
+      }
       session_answers: {
         Row: {
+          answer: string | null
           answered_at: string
           id: number
           is_correct: boolean
@@ -170,6 +185,7 @@ export type Database = {
           team: string | null
         }
         Insert: {
+          answer?: string | null
           answered_at?: string
           id?: never
           is_correct: boolean
@@ -219,6 +235,9 @@ export type Database = {
     Views: { [_ in never]: never }
     Functions: {
       copy_question_set: { Args: { source_id: string }; Returns: string }
+      join_session: { Args: { p_code: string; p_nickname: string }; Returns: Json }
+      get_player_state: { Args: { p_session: string; p_token: string }; Returns: Json }
+      submit_answer: { Args: { p_session: string; p_token: string; p_question: string; p_answer: string }; Returns: Json }
     }
     Enums: {
       game_type: "sail_race" | "frankincense_caravan"

@@ -2,7 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // Pages that need a signed-in teacher.
-const PROTECTED_PREFIXES = ["/dashboard", "/library", "/sets"];
+// Students' pages (/join) stay public.
+const PROTECTED_PREFIXES = ["/dashboard", "/library", "/sets", "/play", "/host"];
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });

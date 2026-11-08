@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
+  CHOICE_TONES,
   IMAGE_BUCKET,
   IMAGE_TYPES,
   MAX_CHOICES,
@@ -24,8 +25,7 @@ export type EditableQuestion = {
   answer: string;
 };
 
-// The same four colours the games use for answer buttons.
-export const CHOICE_TONES = ["bg-sea", "bg-saffron", "bg-pomegranate", "bg-palm", "bg-indigo", "bg-sea-deep"];
+export { CHOICE_TONES };
 
 export function QuestionForm({
   setId,

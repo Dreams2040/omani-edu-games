@@ -4,6 +4,7 @@ import { FavoriteButton } from "@/components/favorite-button";
 import { TeacherHeader } from "@/components/teacher-header";
 import { questionCount } from "@/lib/arabic";
 import { getCurriculum } from "@/lib/curriculum";
+import { GAME_LABEL } from "@/lib/games";
 import { choicesOf } from "@/lib/questions";
 import { createClient } from "@/lib/supabase/server";
 import { copySet, deleteSet, updateSet } from "../actions";
@@ -23,7 +24,7 @@ export default async function SetPage({ params, searchParams }: PageProps<"/sets
   const userId = auth?.claims?.sub;
   if (!userId) redirect("/login");
 
-  const [{ data: set }, { data: questions }, { data: fav }] = await Promise.all([
+  const [{ data: set }, { data: questions }, { data: fav }, { data: sessions }] = await Promise.all([
     supabase
       .from("question_sets")
       .select(
@@ -33,6 +34,13 @@ export default async function SetPage({ params, searchParams }: PageProps<"/sets
       .maybeSingle(),
     supabase.from("questions").select("id, type, prompt, image_url, choices, answer").eq("set_id", id).order("position").order("created_at"),
     supabase.from("favorites").select("set_id").eq("user_id", userId).eq("set_id", id).maybeSingle(),
+    supabase
+      .from("game_sessions")
+      .select("id, game_type, status, created_at")
+      .eq("set_id", id)
+      .eq("host_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(5),
   ]);
 
   if (!set) notFound();
@@ -84,10 +92,18 @@ export default async function SetPage({ params, searchParams }: PageProps<"/sets
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
+                {items.length > 0 && (
+                  <Link
+                    href={`/play/new?set=${set.id}`}
+                    className="rounded-full bg-pomegranate px-6 py-2.5 font-bold text-white shadow-[0_10px_24px_-10px_var(--pomegranate)] transition-colors hover:bg-pomegranate-deep"
+                  >
+                    ابدأ لعبة
+                  </Link>
+                )}
                 <FavoriteButton setId={set.id} isFavorite={Boolean(fav)} withLabel />
                 {!mine && (
                   <form action={copySet.bind(null, set.id)}>
-                    <button type="submit" className="rounded-full bg-pomegranate px-5 py-2.5 font-bold text-white transition-colors hover:bg-pomegranate-deep">
+                    <button type="submit" className="rounded-full px-5 py-2.5 font-bold text-sea-deep ring-1 ring-border transition-colors hover:bg-sea-soft">
                       انسخ إلى أسئلتي وعدّلها
                     </button>
                   </form>
@@ -115,6 +131,30 @@ export default async function SetPage({ params, searchParams }: PageProps<"/sets
                 />
               </div>
             </details>
+          )}
+
+          {sessions && sessions.length > 0 && (
+            <section aria-labelledby="past" className="rounded-3xl bg-surface p-5 ring-1 ring-border sm:p-6">
+              <h2 id="past" className="text-lg font-bold">
+                جلساتك السابقة بهذه المجموعة
+              </h2>
+              <ul className="mt-3 divide-y divide-border">
+                {sessions.map((s) => (
+                  <li key={s.id} className="flex flex-wrap items-center gap-3 py-2.5">
+                    <span className="font-semibold">{GAME_LABEL[s.game_type]}</span>
+                    <span className="text-sm text-muted">
+                      {new Date(s.created_at).toLocaleDateString("ar-OM", { day: "numeric", month: "long" })}
+                    </span>
+                    <Link
+                      href={s.status === "finished" ? `/host/${s.id}/summary` : `/host/${s.id}`}
+                      className="ms-auto rounded-full px-4 py-1.5 text-sm font-semibold text-sea-deep hover:bg-sea-soft"
+                    >
+                      {s.status === "finished" ? "الملخص" : "متابعة اللعبة"}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
           )}
 
           <section aria-label="الأسئلة">

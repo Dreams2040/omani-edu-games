@@ -14,6 +14,9 @@ export const TYPE_LABEL: Record<QuestionType, string> = {
   short: "إجابة قصيرة",
 };
 
+// Answer colours, shared by the editor and the game screens.
+export const CHOICE_TONES = ["bg-sea", "bg-saffron", "bg-pomegranate", "bg-palm", "bg-indigo", "bg-sea-deep"];
+
 export const TRUE_FALSE = ["صح", "خطأ"] as const;
 export const MAX_CHOICES = 6;
 export const MIN_CHOICES = 2;
