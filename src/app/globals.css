@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Colours drawn from Oman: Sharqiya sand, Jebel Akhdar green, Sea of Oman blue. */
+:root {
+  --sand-50: #fbf7ef;
+  --sand-100: #f4ead6;
+  --sand-300: #e3cc9f;
+  --sand-600: #a7834a;
+  --green-600: #2f6b4f;
+  --green-700: #245640;
+  --sea-600: #1f5a82;
+  --sea-700: #17476a;
+  --ink: #2a2118;
+  --ink-muted: #6b5d4d;
+  --danger: #b3261e;
+
+  --background: var(--sand-50);
+  --foreground: var(--ink);
+  --surface: #ffffff;
+  --border: #e8dcc4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1b1712;
+    --foreground: #f3ebdd;
+    --surface: #262019;
+    --border: #3d3428;
+    --ink-muted: #b8a88f;
+    --sand-100: #2f281f;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-muted: var(--ink-muted);
+  --color-sand-50: var(--sand-50);
+  --color-sand-100: var(--sand-100);
+  --color-sand-300: var(--sand-300);
+  --color-sand-600: var(--sand-600);
+  --color-green-600: var(--green-600);
+  --color-green-700: var(--green-700);
+  --color-sea-600: var(--sea-600);
+  --color-sea-700: var(--sea-700);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-arabic), system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-arabic), system-ui, sans-serif;
+}
+
+/* A thin band inspired by the carved patterns of Omani wooden doors. */
+.door-band {
+  height: 10px;
+  background:
+    repeating-linear-gradient(45deg, var(--sand-600) 0 6px, transparent 6px 12px),
+    repeating-linear-gradient(-45deg, var(--sand-600) 0 6px, transparent 6px 12px);
+  opacity: 0.35;
+}
