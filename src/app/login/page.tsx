@@ -44,7 +44,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
       <section className="flex flex-col px-4 py-6 sm:px-10">
         <Link href="/" className="flex items-center gap-2.5 self-start">
           <LogoMark />
-          <span className="font-display text-xl font-bold leading-none">ألعاب الصف العُماني</span>
+          <span className="font-display text-xl font-bold leading-none">ألعاب تعليمية بهوية عُمانية</span>
         </Link>
 
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-10">

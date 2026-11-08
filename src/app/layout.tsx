@@ -16,7 +16,7 @@ const body = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "ألعاب الصف العُماني",
+  title: "ألعاب تعليمية بهوية عُمانية",
   description: "أسئلة جاهزة حسب دروس المنهج العُماني، تتحول بضغطة إلى لعبة جماعية في الصف.",
 };
 

@@ -8,7 +8,7 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2.5">
           <LogoMark />
-          <span className="whitespace-nowrap font-display text-lg font-bold leading-none sm:text-xl">ألعاب الصف العُماني</span>
+          <span className="font-display text-base font-bold leading-tight sm:text-xl">ألعاب تعليمية بهوية عُمانية</span>
         </Link>
         <nav className="flex items-center gap-2">{children}</nav>
       </div>
