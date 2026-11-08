@@ -217,7 +217,9 @@ export type Database = {
       }
     }
     Views: { [_ in never]: never }
-    Functions: { [_ in never]: never }
+    Functions: {
+      copy_question_set: { Args: { source_id: string }; Returns: string }
+    }
     Enums: {
       game_type: "sail_race" | "frankincense_caravan"
       question_type: "mcq" | "true_false" | "short"
