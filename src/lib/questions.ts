@@ -1,4 +1,5 @@
 import type { Database } from "./database.types";
+import { SUPABASE_URL } from "./supabase/config";
 
 export type QuestionType = Database["public"]["Enums"]["question_type"];
 
@@ -27,7 +28,7 @@ export const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"
 // Only images from our own bucket are accepted, so a question can never load
 // an outside URL on students' devices.
 export function isOwnImageUrl(url: string) {
-  const base = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${IMAGE_BUCKET}/`;
+  const base = `${SUPABASE_URL}/storage/v1/object/public/${IMAGE_BUCKET}/`;
   return url.startsWith(base) && !url.includes("..");
 }
 

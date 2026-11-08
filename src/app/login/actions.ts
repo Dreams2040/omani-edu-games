@@ -12,6 +12,10 @@ export type AuthState = { error?: string; message?: string };
 async function siteUrl() {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
   if (configured) return configured;
+  // On Vercel production, use the project's main address (set automatically by Vercel).
+  if (process.env.VERCEL_ENV === "production" && process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
   const h = await headers();
   return h.get("origin") ?? "http://localhost:3000";
 }
