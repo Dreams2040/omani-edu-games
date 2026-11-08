@@ -98,6 +98,19 @@ export function LoginForm({ initialError }: { initialError?: string }) {
         >
           {pending ? "لحظة…" : mode === "signin" ? "دخول" : "إنشاء الحساب"}
         </button>
+        {mode === "signup" && (
+          <p className="text-center text-sm text-muted">
+            بإنشاء الحساب توافق على{" "}
+            <a href="/terms" target="_blank" className="font-semibold text-sea-deep underline">
+              شروط الاستخدام
+            </a>{" "}
+            و
+            <a href="/privacy" target="_blank" className="font-semibold text-sea-deep underline">
+              سياسة الخصوصية
+            </a>
+            .
+          </p>
+        )}
       </form>
     </div>
   );

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SailRaceBoard } from "@/components/sail-race-board";
 import { createClient } from "@/lib/supabase/server";
@@ -123,12 +124,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-6 text-sm text-muted sm:px-6">
-          <span>ألعاب تعليمية بهوية عُمانية</span>
-          <span>لا نجمع أي بيانات شخصية عن الطلاب.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

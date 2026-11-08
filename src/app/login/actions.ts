@@ -6,10 +6,14 @@ import { createClient } from "@/lib/supabase/server";
 
 export type AuthState = { error?: string; message?: string };
 
+// Where Supabase sends people back after email confirmation or Google sign-in.
+// The configured site address wins; the request origin is only a fallback.
+// (Supabase also checks it against the project's allowed redirect URLs.)
 async function siteUrl() {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  if (configured) return configured;
   const h = await headers();
-  const origin = h.get("origin");
-  return origin ?? process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  return h.get("origin") ?? "http://localhost:3000";
 }
 
 function arabicError(message: string): string {

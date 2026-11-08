@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LogoMark } from "@/components/logo";
 import { JoinForm } from "./join-form";
 
@@ -15,7 +16,12 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
         </div>
         <JoinForm initialCode={typeof code === "string" ? code : ""} />
       </div>
-      <p className="mt-8 text-center text-sm text-white/60">لا نحتاج اسمك ولا بريدك. نستخدم لقبك في هذه اللعبة فقط.</p>
+      <p className="mt-8 text-center text-sm text-white/70">
+        لا نحتاج اسمك ولا بريدك. نستخدم لقبك في هذه اللعبة فقط.{" "}
+        <Link href="/student-privacy" className="font-semibold underline">
+          خصوصية الطلاب
+        </Link>
+      </p>
     </main>
   );
 }
